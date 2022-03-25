@@ -7,7 +7,7 @@
         class="mb-5"
       >
       <blockquote class="blockquote">
-        &#8220;First, solve the problem. Then, write the code.&#8221;
+        CARAIO A PRIMEIRA PAGINA MANO
         <footer>
           <small>
             <em>&mdash;John Johnson</em>
@@ -21,9 +21,7 @@
 <script>
 export default {
   layout: 'default',
+  middleware: 'auth',
   name: 'InspirePage',
-  middleware({ store, redirect }) {
-      return redirect('/login')
-  }
 }
 </script>
