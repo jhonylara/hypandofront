@@ -10,7 +10,10 @@
         CARAIO A PRIMEIRA PAGINA MANO
         <footer>
           <small>
-            <em>&mdash;John Johnson</em>
+            <em>&mdash;{{ name}}</em>
+          </small>
+          <small>
+            <em>&mdash;{{ email_verified }}</em>
           </small>
         </footer>
       </blockquote>
@@ -23,5 +26,15 @@ export default {
   layout: 'default',
   middleware: 'auth',
   name: 'InspirePage',
+  mounted() {
+    this.name = this.$auth.$state.user.email
+    this.email_verified = this.$auth.$state.user.email_verified
+  },
+  data() {
+    return {
+      name: '',
+      email_verified :'',
+    }
+  }
 }
 </script>

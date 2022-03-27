@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  layout: 'default',
+  layout: 'principal',
   middleware: 'auth',
   name: 'InspirePage',
 }

@@ -87,20 +87,30 @@ export default {
   },
 
   auth: {
+    localStorage: false,
     redirect: {
       login: '/login',
       logout: '/login',
       callback: '/login/callback', // need this for the auth module to know what path to execute the auth code callback
-      home: '/admin',
+      home: '/mainpage',
     },
     strategies: {
+      google: {
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        // clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        codeChallengeMethod: 'S256',
+        responseType: 'code',
+        grantType: 'authorization_code',
+        redirectUri: process.env.PASSPORT_CALLBACK_URL,
+        endpoints: {
+          token: 'http://localhost/token/google',
+        },
+      },
       social: {
         scheme: 'oauth2',
         endpoints: {
           authorization: process.env.PASSPORT_AUTHORIZE_URL,
           token: process.env.PASSPORT_TOKEN_URL,
-          // userInfo: 'https://www.googleapis.com/oauth2/v3/userinfo',
-          // logout: 'https://example.com/logout'
         },
         token: {
           property: 'access_token',
@@ -121,11 +131,8 @@ export default {
         logoutRedirectUri: undefined,
         clientId: 1,
         scope: ['*'],
-        state: 'UNIQUE_AND_NON_GUESSABLE',
+        // state: 'UNIQUE_AND_NON_GUESSABLE',
         codeChallengeMethod: 'S256',
-        responseMode: '',
-        acrValues: '',
-        // autoLogout: false
       }
     }
   }

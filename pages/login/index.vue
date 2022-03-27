@@ -5,60 +5,61 @@
     <v-col className="col-xl-5 col-lg-6 col-md-8 col-sm-11 col-xs-12">
 
       <div class="seila">
-        <v-slide-x-transition>
           <div style="padding: 10%" v-if="showLogin">
             <v-card
               class="" color="grey lighten-2" flat tile style="">
               <h1>Login</h1>
             </v-card>
-            <div class="input">
-              <v-text-field
-                label="usuario/email"
-                color="purple darken-2"
-                hide-details="auto"
-              ></v-text-field>
-              <v-text-field label="Senha"></v-text-field>
-            </div>
-            <div class="buttons">
-              <v-btn
-                v-show="showLogin"
-                depressed
-                :elevation="9"
-                outlined
-                raised
-                x-large
-                @click="openLoginWindow"
-              >LOGIN
-              </v-btn>
-              <v-btn
-                depressed
-                elevation="9"
-                outlined
-                raised
-                x-large
-                @click="registerUserSend"
-              >REGISTER
-              </v-btn>
-              <v-btn
-                v-show="showLogin"
-                @click="loginWithGoogle"
-                elevation="9"
-                raised
-                x-large
-                style="color: white; padding-left: 2px !important; margin-left: 2px !important;"
-                color="#4285f4"
-              >
-                <div
-                  style="margin-right: 20px; background-color: white; height: 48px; width: 50px; border-radius: 4px;">
-                  <img style="    position: absolute; top: 9px; left:  10px;" width="30px" height="30px"
-                       src="@/static/google-color.svg"/>
+            <v-row>
+              <v-col class="col-7">
+                <div class="buttons">
+                  <v-btn
+                    v-show="showLogin"
+                    depressed
+                    :elevation="9"
+                    outlined
+                    raised
+                    x-large
+                    @click="openLoginWindow"
+                  >LOGIN
+                  </v-btn>
+<!--                  <v-btn-->
+<!--                    depressed-->
+<!--                    elevation="9"-->
+<!--                    outlined-->
+<!--                    raised-->
+<!--                    x-large-->
+<!--                    @click="registerUserSend"-->
+<!--                  >REGISTER-->
+<!--                  </v-btn>-->
                 </div>
-                Login com Google
-              </v-btn>
+              </v-col>
+              <v-col class="col-5">
+              <div class="buttons">
+                <v-btn
+                  v-show="showLogin"
+                  @click="loginWithGoogle"
+                  elevation="9"
+                  raised
+                  x-large
+                  style="color: white; padding-left: 2px !important; margin-left: 2px !important;"
+                  color="#4285f4"
+                >
+                  <div
+                    style="margin-right: 20px; background-color: white; height: 48px; width: 50px; border-radius: 4px;">
+                    <img style="    position: absolute; top: 9px; left:  10px;" width="30px" height="30px"
+                         src="@/static/google-color.svg"/>
+                  </div>
+                  Login com Google
+                </v-btn>
+              </div>
+              </v-col>
+
+            </v-row>
+
 
             </div>
           </div>
-        </v-slide-x-transition>
         <v-slide-x-transition>
           <div style="padding: 10%" v-if="showRegister">
             <v-card
@@ -122,81 +123,79 @@ export default {
   },
   data() {
     return {
-
       showLogin: true,
       showRegister: false
     }
   },
   methods: {
-    swapToRegister() {
-      this.showLogin = !this.showLogin
-      setTimeout(() => this.showRegister = !this.showRegister, 400)
-    },
-    swapToLogin() {
-      this.showRegister = !this.showRegister
-      setTimeout(() => this.showLogin = !this.showLogin, 400)
-    },
+    // swapToRegister() {
+    //   this.showLogin = !this.showLogin
+    //   setTimeout(() => this.showRegister = !this.showRegister, 400)
+    // },
+    // swapToLogin() {
+    //   this.showRegister = !this.showRegister
+    //   setTimeout(() => this.showLogin = !this.showLogin, 400)
+    // },
     loginWithGoogle() {
-      // this.$nuxt.setLayout('index')
       // this.$auth.loginWith('google')
-      this.$auth.loginWith('social')
-      // this.$router.push('/login')
+      this.$auth.loginWith('google')
     },
-    registerUserSend() {
-      console.log(this.$auth.state)
-      // this.$auth.loginWith('laravelPassport', {user: 'teste', email: 'twiewoitji@toiwejtowi.com'})
-    },
-    base64Url(string) {
-      return string.toString(crypto.enc.Base64).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
-    },
+    // registerUserSend() {
+    //   console.log(this.$auth.state)
+    //   // this.$auth.loginWith('laravelPassport', {user: 'teste', email: 'twiewoitji@toiwejtowi.com'})
+    // },
+    // base64Url(string) {
+    //   return string.toString(crypto.enc.Base64).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
+    // },
     openLoginWindow() {
       console.log(this.isAuthenticated)
-      window.addEventListener('message', (e) => {
-        console.log(e)
-        if (e.origin !== 'http://localhost:3000' || ! Object.keys(e.data).includes('access_token')) {
-          return;
-        }
+      this.$auth.loginWith('social', {frontParam: 'test_front'})
+      // window.addEventListener('message', (e) => {
+      //   console.log(e)
+      //   if (e.origin !== 'http://localhost:3000' || ! Object.keys(e.data).includes('access_token')) {
+      //     return;
+      //   }
+      //
+      //   const {token_type, expires_in, access_token, refresh_token} = e.data;
+      //   this.$axios.setToken(access_token, token_type);
+      //
+      //   this.$axios.$get('http://passport-pkce.web/api/user')
+      //     .then(resp => {
+      //       console.log(resp);
+      //     })
+      // });
 
-        const {token_type, expires_in, access_token, refresh_token} = e.data;
-        this.$axios.setToken(access_token, token_type);
-
-        this.$axios.$get('http://passport-pkce.web/api/user')
-          .then(resp => {
-            console.log(resp);
-          })
-      });
-
-      let state = [...Array(40)].map(() => Math.random().toString(36)[2]).join('')
-      let verifier = [...Array(128)].map(() => Math.random().toString(36)[2]).join('')
-
-      let challenge =  this.base64Url(crypto.SHA256(verifier))
-
-      console.log(state)
-      console.log(verifier)
-      console.log(challenge)
-
-
-      window.sessionStorage.setItem('state', state);
-      window.sessionStorage.setItem('verifier', verifier);
-
-      cookie.parse('foo=bar; equation=E%3Dmc%5E2')
-
-      let params = {
-        redirect_uri: this.$config.passport.CALLBACK_URL,
-        response_type: 'code',
-        scope: '',
-        client_id: this.$config.passport.CLIENT_ID,
-        state: state,
-        code_challenge: challenge,
-        code_challenge_method: 'S256',
-      }
-
-      console.log(params)
-
-
-      let fullUrl = this.$config.passport.AUTHORIZE_URL + '/?' + qs.stringify(params)
-
-      window.location.href = fullUrl //to debug on console
+      // let state = [...Array(40)].map(() => Math.random().toString(36)[2]).join('')
+      // let verifier = [...Array(128)].map(() => Math.random().toString(36)[2]).join('')
+      //
+      // let challenge =  this.base64Url(crypto.SHA256(verifier))
+      //
+      // console.log(state)
+      // console.log(verifier)
+      // console.log(challenge)
+      //
+      //
+      // window.sessionStorage.setItem('state', state);
+      // window.sessionStorage.setItem('verifier', verifier);
+      //
+      // cookie.parse('foo=bar; equation=E%3Dmc%5E2')
+      //
+      // let params = {
+      //   redirect_uri: this.$config.passport.CALLBACK_URL,
+      //   response_type: 'code',
+      //   scope: '',
+      //   client_id: this.$config.passport.CLIENT_ID,
+      //   state: state,
+      //   code_challenge: challenge,
+      //   code_challenge_method: 'S256',
+      // }
+      //
+      // console.log(params)
+      //
+      //
+      // let fullUrl = this.$config.passport.AUTHORIZE_URL + '/?' + qs.stringify(params)
+      //
+      // window.location.href = fullUrl //to debug on console
       // window.open(fullUrl, 'popup', 'width=500,height=500,resizable=false,menubar=false');
 
       // let baseUrl = 'http://localhost/oauth/authorize/?'
@@ -232,7 +231,6 @@ h1 {
   background: white;
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
-  margin-top: 2vh;
   margin-right: 2vh;
   height: 96vh;
 }
