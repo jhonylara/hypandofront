@@ -11,6 +11,7 @@
   "dependencies": {
     "@nuxtjs/auth-next": "5.0.0-1647967358.de1bb0f",
     "@nuxtjs/axios": "5.12.1",
+    "@tinymce/tinymce-vue": "^3.2.8",
     "core-js": "^3.19.3",
     "crypto-js": "^4.1.1",
     "js-cookie": "^3.0.1",

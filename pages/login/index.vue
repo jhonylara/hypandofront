@@ -107,20 +107,17 @@
   </v-row>
 </template>
 <script>
-import qs from 'qs'
-import crypto from 'crypto-js'
-import { mapGetters } from 'vuex'
-import cookie from "qs";
+
 export default {
+  middleware({ store, redirect }) {
+    if(store.getters.isAuthenticated){
+        return redirect('/business')
+    }
+  },
   layout: "login-layout",
   name: "login",
   // ...mapGetters(['isAuthenticated', 'loggedInUser', 'token']),
   components: {},
-  watch: {
-    isAuthenticated(e){
-      console.log(e)
-    }
-  },
   data() {
     return {
       showLogin: true,
@@ -149,7 +146,7 @@ export default {
     // },
     openLoginWindow() {
       console.log(this.isAuthenticated)
-      this.$auth.loginWith('social', {frontParam: 'test_front'})
+      this.$auth.loginWith('social')
       // window.addEventListener('message', (e) => {
       //   console.log(e)
       //   if (e.origin !== 'http://localhost:3000' || ! Object.keys(e.data).includes('access_token')) {

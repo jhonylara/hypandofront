@@ -8,9 +8,10 @@ export default {
       TOKEN_URL: process.env.PASSPORT_TOKEN_URL,
       CALLBACK_URL: process.env.PASSPORT_CALLBACK_URL,
       AUTHORIZE_URL: process.env.PASSPORT_AUTHORIZE_URL,
-    }
+    },
   },
   privateRuntimeConfig: {
+    API_URL: process.env.PASSPORT_CLIENT_ID
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -35,10 +36,6 @@ export default {
   css: [
   ],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-  ],
-
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
@@ -48,10 +45,16 @@ export default {
     '@nuxtjs/vuetify',
   ],
 
+
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/auth-next'
+  ],
+
+  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+  plugins: [
+    '~/plugins/apiAxios.js',
   ],
 
   // axios: {
@@ -81,31 +84,56 @@ export default {
   build: {
   },
 
-  axios: {
-    baseURL: process.env.HYPDO_SERVER_URL,
-    credentials: true, // this says that in the request the httponly cookie should be sent
-  },
+  // axios: {
+  //   baseURL: process.env.HYPDO_SERVER_URL,
+  //   credentials: true, // this says that in the request the httponly cookie should be sent
+  // },
 
   auth: {
+    sessionStorage: false,
     localStorage: false,
+    cookie: true,
     redirect: {
       login: '/login',
       logout: '/login',
       callback: '/login/callback', // need this for the auth module to know what path to execute the auth code callback
-      home: '/mainpage',
+      home: '/business',
     },
+    // localStorage: false,
+    // sessionStorage: false,
+    // cookie: false,
+    // token: {
+    //   property: 'access_token',
+    //   prefix: 'access_token.',
+    //   type: 'Bearer',
+    //   maxAge: 1800,
+    // },
+    // refreshToken: {
+    //   property: 'refresh_token',
+    //   prefix: 'refresh_token.',
+    //   maxAge: 60 * 60 * 24 * 30
+    // },
     strategies: {
-      google: {
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        // clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        codeChallengeMethod: 'S256',
-        responseType: 'code',
-        grantType: 'authorization_code',
-        redirectUri: process.env.PASSPORT_CALLBACK_URL,
-        endpoints: {
-          token: 'http://localhost/token/google',
-        },
-      },
+      // google: {
+      //   clientId: process.env.GOOGLE_CLIENT_ID,
+      //   codeChallengeMethod: 'S256',
+      //   responseType: 'code',
+      // accessType: offline,
+      //   grantType: 'authorization_code',
+      //   redirectUri: process.env.PASSPORT_CALLBACK_URL,
+      //   endpoints: {
+      //     token: 'http://localhost/token/google',
+      //   },
+
+        // token: {
+        //   property: 'access_token',
+        //   type: 'Bearer',
+        //   maxAge: 1800,
+        //   sessionStorage: false,
+        //   localStorage: false,
+        //   cookie: false,
+        // },
+      // },
       social: {
         scheme: 'oauth2',
         endpoints: {
@@ -113,12 +141,8 @@ export default {
           token: process.env.PASSPORT_TOKEN_URL,
         },
         token: {
+          prefix: 'access_token.',
           property: 'access_token',
-          type: 'Bearer',
-          maxAge: 1800,
-          sessionStorage: false,
-          localStorage: false,
-          cookie: true,
         },
         refreshToken: {
           property: 'refresh_token',
@@ -126,12 +150,9 @@ export default {
         },
         responseType: 'code',
         grantType: 'authorization_code',
-        accessType: undefined,
         redirectUri: process.env.PASSPORT_CALLBACK_URL,
-        logoutRedirectUri: undefined,
         clientId: 1,
         scope: ['*'],
-        // state: 'UNIQUE_AND_NON_GUESSABLE',
         codeChallengeMethod: 'S256',
       }
     }
