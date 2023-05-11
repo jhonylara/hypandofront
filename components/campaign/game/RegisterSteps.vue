@@ -31,12 +31,14 @@ import SelectMethodStep from "./SelectMethodStep"
 import GameStepsEnum from "@/enums/GameStepsEnum.js"
 import CustomProp from "@/dtos/CustomProp.js"
 import GameRegister from "@/components/campaign/game/GameRegister"
+import GameCampaignDetails from "@/components/campaign/game/GameCampaignDetails";
 
 export default {
   name: "RegisterSteps",
   components: {
     SelectMethodStep,
-    GameRegister
+    GameRegister,
+    GameCampaignDetails
   },
   mounted() {
     this.actualContent = this.steps.at(this.actualStep-1)
@@ -56,13 +58,14 @@ export default {
         {
           step: 2,
           complete: false,
-          title: 'Detalhes',
+          title: 'Registrar',
           content: GameRegister
         },
         {
           step: 3,
           complete: false,
-          title: 'Configurar'
+          title: 'Detalhes',
+          content: GameCampaignDetails
         },
         {
           step: 4,
